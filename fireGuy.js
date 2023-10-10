@@ -1,4 +1,4 @@
-class Fier_Guy {
+class Fire_Guy {
     constructor(x, y) {
         this.x = x;
         this.y = y;
