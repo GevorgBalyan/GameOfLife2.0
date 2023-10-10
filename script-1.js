@@ -3,9 +3,9 @@ let grassArr = []
 let grassEaterArr = []
 let predatorArr = []
 let waterArr = []
-let fierGuyArr = []
+let fireGuyArr = []
 
-function generate(matLen, gr, grEat, predatr, waterr, fierguyy) {
+function generate(matLen, gr, grEat, predatr, waterr, fireguyy) {
     let matrix = []
     for (let i = 0; i < matLen; i++) {
         matrix[i] = []
@@ -42,7 +42,7 @@ function generate(matLen, gr, grEat, predatr, waterr, fierguyy) {
             matrix[y][x] = 4
         }
     }
-    for (let i = 0; i < fierguyy; i++) {
+    for (let i = 0; i < fireguyy; i++) {
         let x = Math.floor(Math.random() * matLen)
         let y = Math.floor(Math.random() * matLen)
         if (matrix[y][x] == 0) {
@@ -77,8 +77,8 @@ function setup() {
                 waterArr.push(waterr)
             }
             else if (matrix[y][x] == 5) {
-                var fierguyy = new Fier_Guy(x, y)
-                fierGuyArr.push(fierguyy)
+                var fireguyy = new Fire_Guy(x, y)
+                fireGuyArr.push(fireguyy)
             }
         }
     }
@@ -128,8 +128,8 @@ function draw() {
     for (let i in waterArr) {
         waterArr[i].mul()
     }
-    for (let i in fierGuyArr) {
-        fierGuyArr[i].move()
+    for (let i in fireGuyArr) {
+        fireGuyArr[i].move()
     }
 }
 
