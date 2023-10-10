@@ -1,11 +1,19 @@
+let Grass = require("./grass")
+let GrassEater = require("./grassEater")
+let Predator = require("./predator")
+let Water = require("./water")
+let Fire_Guy = require("./fireGuy")
+let Fire = require("./fire")
+
 var side = 15;
 let grassArr = []
 let grassEaterArr = []
 let predatorArr = []
 let waterArr = []
 let fireGuyArr = []
+let fireArr = []
 
-function generate(matLen, gr, grEat, predatr, waterr, fireguyy) {
+function generate(matLen, gr, grEat, predatr, waterr, fireguyy, firee) {
     let matrix = []
     for (let i = 0; i < matLen; i++) {
         matrix[i] = []
@@ -13,7 +21,6 @@ function generate(matLen, gr, grEat, predatr, waterr, fireguyy) {
             matrix[i][j] = 0
         }
     }
-
     for (let i = 0; i < gr; i++) {
         let x = Math.floor(Math.random() * matLen)
         let y = Math.floor(Math.random() * matLen)
@@ -49,6 +56,13 @@ function generate(matLen, gr, grEat, predatr, waterr, fireguyy) {
             matrix[y][x] = 5
         }
     }
+    for (let i = 0; i < firee; i++) {
+        let x = Math.floor(Math.random() * matLen)
+        let y = Math.floor(Math.random() * matLen)
+        if (matrix[y][x] == 0) {
+            matrix[y][x] = 6
+        }
+    }
     return matrix
 }
 
@@ -79,6 +93,10 @@ function setup() {
             else if (matrix[y][x] == 5) {
                 var fireguyy = new Fire_Guy(x, y)
                 fireGuyArr.push(fireguyy)
+            }
+            else if (matrix[y][x] == 6) {
+                var firee = new Fire(x, y)
+                fireArr.push(firee)
             }
         }
     }
@@ -130,6 +148,9 @@ function draw() {
     }
     for (let i in fireGuyArr) {
         fireGuyArr[i].move()
+    }
+    for (let i in firee) {
+        fireArr[i].burn()
     }
 }
 
