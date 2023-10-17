@@ -1,9 +1,9 @@
-let Grass = require("./grass")
-let GrassEater = require("./grassEater")
-let Predator = require("./predator")
-let Water = require("./water")
-let Fire_Guy = require("./fireGuy")
-let Fire = require("./fire")
+let Grass = require("./server/grass")
+let GrassEater = require("./server/grassEater")
+let Predator = require("./server/predator")
+let Water = require("./server/water")
+let Fire_Guy = require("./server/fireGuy")
+let Fire = require("./server/fire")
 
 var side = 15;
 let grassArr = []
