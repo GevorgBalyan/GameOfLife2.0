@@ -1,4 +1,5 @@
 LivingCreature = require("./livingCreature")
+Grass = require("./grass")
 
 module.exports = class Water extends LivingCreature{
     constructor(x, y) {

@@ -2,7 +2,7 @@ LivingCreature = require("./livingCreature")
 
 module.exports = class Fire extends LivingCreature{
     constructor(x, y) {
-        super(x,y,index)
+        super(x,y)
         this.energy = 3
     }
     chooseCell(character) {
@@ -24,7 +24,6 @@ module.exports = class Fire extends LivingCreature{
         }
     }
     burn() {
-        frameRate(3)
         var emptyCells = this.chooseCell(1);
         var newCell = random(emptyCells);
         var emptyCells1 = this.chooseCell(4);
@@ -52,7 +51,7 @@ module.exports = class Fire extends LivingCreature{
         }
         else if (this.energy >= 0) {
             this.energy--
-            console.log(this.energy);
+            // console.log(this.energy);
         }
         else if (this.energy <= 0) {
             this.die()
