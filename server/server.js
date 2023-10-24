@@ -1,4 +1,6 @@
 random = require("./random")
+var fs = require('fs')
+
 
 var express = require("express");
 var app = express();
@@ -16,6 +18,11 @@ predatorArr = []
 waterArr = []
 fireGuyArr = []
 fireArr = []
+
+
+
+
+
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -84,9 +91,7 @@ function generate(matLen, gr, grEat, predatr, waterr, fireguyy, firee) {
     }
     return matrix
 }
-matrix = generate(30, 10, 10, 5, 10, 1, 20)
-
-
+matrix = generate(30, 10, 20, 10, 7, 1, 0)
 
 
 function createOBJ() {
@@ -142,12 +147,30 @@ function start() {
     }
 
     io.sockets.emit("matrix", matrix);
+    console.log(grassArr.length);
+    obj =
+        {
+            'grass': grassArr.length,
+            'grassEater': grassEaterArr.length,
+            'predator': predatorArr.length,
+            'water': waterArr.length,
+            'fireGuy': fireGuyArr.length,
+            'fire': fireArr.length.length
+        }
 
+    var stats = JSON.stringify(obj);
+    fs.writeFileSync('stats.json',stats)
 }
 setInterval(start, 100)
 
-// io.on('connection', function (socket) {
-//     socket.emit("matrix", matrix);
-// });
 
-// console.log(matrix)
+io.on('connection', function(socket){
+    socket.on("get", getS)
+})
+
+
+
+function getS(){
+    sendStats = fs.readFileSync('stats.json')
+    io.sockets.emit('stat', sendStats)
+}
