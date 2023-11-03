@@ -10,7 +10,8 @@ let GrassEater = require("./grassEater.js")
 let Predator = require("./predator.js")
 let Water = require("./water.js")
 let Fire_Guy = require("./fireGuy.js")
-let Fire = require("./fire.js")
+let Fire = require("./fire.js");
+
 
 grassArr = []
 grassEaterArr = []
@@ -18,11 +19,7 @@ predatorArr = []
 waterArr = []
 fireGuyArr = []
 fireArr = []
-
-
-
-
-
+season = 'summer'
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -34,9 +31,6 @@ app.get("/", function (req, res) {
 server.listen(3000, function () {
     console.log("Example is running on port 3000");
 });
-
-
-
 
 function generate(matLen, gr, grEat, predatr, waterr, fireguyy, firee) {
     let matrix = []
@@ -91,7 +85,7 @@ function generate(matLen, gr, grEat, predatr, waterr, fireguyy, firee) {
     }
     return matrix
 }
-matrix = generate(30, 10, 20, 10, 7, 1, 0)
+matrix = generate(30, 20, 10, 5, 5, 1, 0)
 
 
 function createOBJ() {
@@ -126,18 +120,53 @@ function createOBJ() {
 }
 createOBJ()
 
+function change(changeSeason) {
+    season = changeSeason
+}
+
+io.on('connection', function (socket) {
+    socket.on('season', change);
+});
+
 function start() {
+    {
     for (let i in grassArr) {
-        grassArr[i].mul();
+        if (season == 'summer') {
+            grassArr[i].mul();
+        }
+        else if (season == 'autumn' || season == 'spring') {
+            grassArr[i].mulAS()
+        }
+        else if (season == 'winter') {
+            grassArr[i].mulW();
+        }
     }
     for (let i in grassEaterArr) {
-        grassEaterArr[i].eat()
+        if (season == 'summer') {
+            grassEaterArr[i].eat()
+        }
+        else if (season == 'autumn' || season == 'spring') {
+            grassEaterArr[i].eatAS()
+        }
+        else if (season == 'winter') {
+            grassEaterArr[i].eatW()
+
+        }
     }
     for (let i in predatorArr) {
-        predatorArr[i].eat()
+        if (season == 'winter' || season == 'autumn') {
+            predatorArr[i].eatWA()
+        }
+        else{
+            predatorArr[i].eatSS()
+        }
     }
     for (let i in waterArr) {
-        waterArr[i].mul()
+        if(season == 'winter')
+        waterArr[i].mulW()
+        else{
+            waterArr[i].mul()
+        }
     }
     for (let i in fireGuyArr) {
         fireGuyArr[i].move()
@@ -145,32 +174,33 @@ function start() {
     for (let i in fireArr) {
         fireArr[i].burn()
     }
+}
 
-    io.sockets.emit("matrix", matrix);
-    console.log(grassArr.length);
-    obj =
-        {
-            'grass': grassArr.length,
-            'grassEater': grassEaterArr.length,
-            'predator': predatorArr.length,
-            'water': waterArr.length,
-            'fireGuy': fireGuyArr.length,
-            'fire': fireArr.length.length
-        }
+io.sockets.emit("matrix", matrix);
+obj =
+{
+    'grass': grassArr.length,
+    'grassEater': grassEaterArr.length,
+    'predator': predatorArr.length,
+    'water': waterArr.length,
+    'fireGuy': fireGuyArr.length,
+    'fire': fireArr.length
+}
 
-    var stats = JSON.stringify(obj);
-    fs.writeFileSync('stats.json',stats)
+var stats = JSON.stringify(obj);
+fs.writeFileSync('stats.json', stats)
 }
 setInterval(start, 100)
 
 
-io.on('connection', function(socket){
+
+
+io.on('connection', function (socket) {
     socket.on("get", getS)
 })
 
 
-
-function getS(){
-    sendStats = fs.readFileSync('stats.json')
+function getS() {
+    sendStats = fs.readFileSync('stats.json', { encoding: 'utf8' })
     io.sockets.emit('stat', sendStats)
 }

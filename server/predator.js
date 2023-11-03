@@ -3,7 +3,7 @@ LivingCreature = require("./livingCreature")
 module.exports = class Predator extends LivingCreature {
     constructor(x, y) {
         super(x, y)
-        this.energy = 30
+        this.energy = 60
         this.directions = [];
     }
 
@@ -44,13 +44,13 @@ module.exports = class Predator extends LivingCreature {
         }
     }
 
-    eat() {
+    eatWA() {
         var emptyCells = this.chooseCell(2);
         var newCell = random(emptyCells);
         var emptyCells1 = this.chooseCell(1);
         var newCell1 = random(emptyCells1);
         if (newCell && this.energy >= 0) {
-            this.energy += 5
+            this.energy += 8
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = matrix[this.y][this.x]
@@ -79,7 +79,49 @@ module.exports = class Predator extends LivingCreature {
                 }
             }
         }
-        else if (this.energy >= 33) {
+        else if (this.energy >= 70) {
+            this.mul()
+        }
+        else {
+            this.move()
+        }
+    }
+    eatSS() {
+        var emptyCells = this.chooseCell(2);
+        var newCell = random(emptyCells);
+        var emptyCells1 = this.chooseCell(1);
+        var newCell1 = random(emptyCells1);
+        if (newCell && this.energy >= 0) {
+            this.energy += 8
+            var newX = newCell[0];
+            var newY = newCell[1];
+            matrix[newY][newX] = matrix[this.y][this.x]
+            matrix[this.y][this.x] = 0
+            this.x = newX
+            this.y = newY
+            for (var i in grassEaterArr) {
+                if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
+                    grassEaterArr.splice(i, 1);
+                    break;
+                }
+            }
+        }
+        if (newCell1 && this.energy > 0) {
+            this.energy--
+            var newX = newCell1[0];
+            var newY = newCell1[1];
+            matrix[newY][newX] = matrix[this.y][this.x]
+            matrix[this.y][this.x] = 0
+            this.x = newX
+            this.y = newY
+            for (var i in grassArr) {
+                if (newX == grassArr[i].x && newY == grassArr[i].y) {
+                    grassArr.splice(i, 1);
+                    break;
+                }
+            }
+        }
+        else if (this.energy >= 65) {
             this.mul()
         }
         else {

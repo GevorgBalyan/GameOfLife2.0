@@ -16,7 +16,6 @@ module.exports = class Fire_Guy extends LivingCreature{
     spawn_fier() {
         var emptyCells = this.chooseCell(0);
         var newCell = random(emptyCells);
-
         if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
